@@ -44,6 +44,8 @@ class _TicketCardWidgetState extends State<TicketCardWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => TicketCardModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

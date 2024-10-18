@@ -32,6 +32,8 @@ class _DefaultButtonWidgetState extends State<DefaultButtonWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => DefaultButtonModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

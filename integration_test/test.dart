@@ -10,22 +10,19 @@ import 'package:student_success_centre_hub/main.dart';
 import 'package:student_success_centre_hub/flutter_flow/flutter_flow_util.dart';
 
 import 'package:provider/provider.dart';
-import 'package:student_success_centre_hub/backend/firebase/firebase_config.dart';
 
 import 'package:student_success_centre_hub/backend/supabase/supabase.dart';
+import 'package:student_success_centre_hub/auth/supabase_auth/auth_util.dart';
 
-import 'package:student_success_centre_hub/auth/custom_auth/auth_util.dart';
 import 'package:student_success_centre_hub/backend/supabase/supabase.dart';
 
 void main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   setUpAll(() async {
-    await initFirebase();
     await SupaFlow.initialize();
 
     await FlutterFlowTheme.initialize();
-    await authManager.initialize();
   });
 
   setUp(() async {

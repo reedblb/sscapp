@@ -4,33 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
-import 'auth/custom_auth/auth_util.dart';
-import 'auth/custom_auth/custom_auth_user_provider.dart';
+import 'auth/supabase_auth/supabase_user_provider.dart';
+import 'auth/supabase_auth/auth_util.dart';
 
 import '/backend/supabase/supabase.dart';
-import 'backend/firebase/firebase_config.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
-import 'flutter_flow/firebase_app_check_util.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   GoRouter.optionURLReflectsImperativeAPIs = true;
   usePathUrlStrategy();
 
-  await initFirebase();
-
   await SupaFlow.initialize();
 
   await FlutterFlowTheme.initialize();
 
-  await authManager.initialize();
-
   final appState = FFAppState(); // Initialize FFAppState
   await appState.initializePersistedState();
-
-  await initializeFirebaseAppCheck();
 
   runApp(ChangeNotifierProvider(
     create: (context) => appState,
@@ -59,7 +51,7 @@ class _MyAppState extends State<MyApp> {
   late AppStateNotifier _appStateNotifier;
   late GoRouter _router;
 
-  late Stream<StudentSuccessCentreHubAuthUser> userStream;
+  late Stream<BaseAuthUser> userStream;
 
   @override
   void initState() {
@@ -67,13 +59,13 @@ class _MyAppState extends State<MyApp> {
 
     _appStateNotifier = AppStateNotifier.instance;
     _router = createRouter(_appStateNotifier, widget.entryPage);
-    userStream = studentSuccessCentreHubAuthUserStream()
+    userStream = studentSuccessCentreHubSupabaseUserStream()
       ..listen((user) {
         _appStateNotifier.update(user);
       });
-
+    jwtTokenStream.listen((_) {});
     Future.delayed(
-      const Duration(milliseconds: 1000),
+      Duration(milliseconds: isWeb ? 0 : 1000),
       () => _appStateNotifier.stopShowingSplashImage(),
     );
   }

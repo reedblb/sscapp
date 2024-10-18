@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import '/backend/schema/structs/index.dart';
 
-import '/auth/custom_auth/custom_auth_user_provider.dart';
+import '/auth/base_auth_user_provider.dart';
 
 import '/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -22,8 +22,8 @@ class AppStateNotifier extends ChangeNotifier {
   static AppStateNotifier? _instance;
   static AppStateNotifier get instance => _instance ??= AppStateNotifier._();
 
-  StudentSuccessCentreHubAuthUser? initialUser;
-  StudentSuccessCentreHubAuthUser? user;
+  BaseAuthUser? initialUser;
+  BaseAuthUser? user;
   bool showSplashImage = true;
   String? _redirectLocation;
 
@@ -48,7 +48,7 @@ class AppStateNotifier extends ChangeNotifier {
   /// to perform subsequent actions (such as navigation) afterwards.
   void updateNotifyOnAuthChange(bool notify) => notifyOnAuthChange = notify;
 
-  void update(StudentSuccessCentreHubAuthUser newUser) {
+  void update(BaseAuthUser newUser) {
     final shouldUpdate =
         user?.uid == null || newUser.uid == null || user?.uid != newUser.uid;
     initialUser ??= newUser;
@@ -75,15 +75,15 @@ GoRouter createRouter(AppStateNotifier appStateNotifier, [Widget? entryPage]) =>
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, state) => appStateNotifier.loggedIn
-          ? entryPage ?? const TicketsPageWidget()
-          : const HomeWidget(),
+          ? entryPage ?? const StaffDashboardWidget()
+          : const HomepageWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) => appStateNotifier.loggedIn
-              ? entryPage ?? const TicketsPageWidget()
-              : const HomeWidget(),
+              ? entryPage ?? const StaffDashboardWidget()
+              : const HomepageWidget(),
           routes: [
             FFRoute(
               name: 'Homepage',
@@ -129,9 +129,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier, [Widget? entryPage]) =>
               builder: (context, params) => const StudentWidget(),
             ),
             FFRoute(
-              name: 'Home',
-              path: 'home2',
-              builder: (context, params) => const HomeWidget(),
+              name: 'StaffDashboard',
+              path: 'staffDashboard',
+              builder: (context, params) => const StaffDashboardWidget(),
+            ),
+            FFRoute(
+              name: 'Directory',
+              path: 'directory',
+              builder: (context, params) => const DirectoryWidget(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),
@@ -304,7 +309,7 @@ class FFRoute {
 
           if (requireAuth && !appStateNotifier.loggedIn) {
             appStateNotifier.setRedirectLocationIfUnset(state.uri.toString());
-            return '/home2';
+            return '/home';
           }
           return null;
         },
@@ -318,16 +323,18 @@ class FFRoute {
                 )
               : builder(context, ffParams);
           final child = appStateNotifier.loading
-              ? Container(
-                  color: FlutterFlowTheme.of(context).alternate,
-                  child: Center(
-                    child: Image.asset(
-                      'assets/images/Logo_-_Copy_-_Copy.png',
-                      width: 150.0,
-                      fit: BoxFit.fitWidth,
-                    ),
-                  ),
-                )
+              ? isWeb
+                  ? Container()
+                  : Container(
+                      color: FlutterFlowTheme.of(context).alternate,
+                      child: Center(
+                        child: Image.asset(
+                          'assets/images/Logo_-_Copy_-_Copy.png',
+                          width: 150.0,
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
+                    )
               : page;
 
           final transitionInfo = state.transitionInfo;

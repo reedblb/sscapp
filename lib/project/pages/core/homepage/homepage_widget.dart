@@ -22,6 +22,8 @@ class _HomepageWidgetState extends State<HomepageWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => HomepageModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -35,135 +37,173 @@ class _HomepageWidgetState extends State<HomepageWidget> {
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
 
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              flex: 1,
-              child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(
-                    0.0,
-                    valueOrDefault<double>(
-                      FFAppState().topPadding,
-                      0.0,
-                    ),
-                    0.0,
-                    valueOrDefault<double>(
-                      FFAppState().bottomPadding,
-                      0.0,
-                    )),
-                child: Container(
-                  width: MediaQuery.sizeOf(context).width * 1.0,
-                  height: MediaQuery.sizeOf(context).height * 1.0,
-                  decoration: const BoxDecoration(),
-                  child: Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
+    return Title(
+        title: 'Homepage',
+        color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
+        child: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: WillPopScope(
+            onWillPop: () async => false,
+            child: Scaffold(
+              key: scaffoldKey,
+              backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+              body: SafeArea(
+                top: true,
+                child: Stack(
+                  children: [
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: Image.asset(
-                                'assets/images/Logo_-_Copy.png',
-                                width: 573.0,
-                                height: 89.0,
-                                fit: BoxFit.fitWidth,
-                              ),
-                            ),
-                            if (responsiveVisibility(
-                              context: context,
-                              tabletLandscape: false,
-                              desktop: false,
-                            ))
-                              RichText(
-                                textScaler: MediaQuery.of(context).textScaler,
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: 'Student Success Centre Hub',
-                                      style: FlutterFlowTheme.of(context)
-                                          .titleLarge
-                                          .override(
-                                            fontFamily: 'Outfit',
-                                            letterSpacing: 0.0,
+                        Expanded(
+                          flex: 1,
+                          child: Align(
+                            alignment: const AlignmentDirectional(1.0, 0.0),
+                            child: Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0,
+                                  valueOrDefault<double>(
+                                    FFAppState().topPadding,
+                                    0.0,
+                                  ),
+                                  0.0,
+                                  valueOrDefault<double>(
+                                    FFAppState().bottomPadding,
+                                    0.0,
+                                  )),
+                              child: Container(
+                                width: MediaQuery.sizeOf(context).width * 1.0,
+                                height: MediaQuery.sizeOf(context).height * 1.0,
+                                decoration: const BoxDecoration(),
+                                child: Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      16.0, 0.0, 16.0, 0.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                            child: Image.asset(
+                                              'assets/images/Logo_-_Copy.png',
+                                              width: 573.0,
+                                              height: 89.0,
+                                              fit: BoxFit.fitWidth,
+                                            ),
                                           ),
-                                    )
-                                  ],
-                                  style: FlutterFlowTheme.of(context)
-                                      .titleMedium
-                                      .override(
-                                        fontFamily: 'Plus Jakarta Sans',
-                                        letterSpacing: 0.0,
+                                          if (responsiveVisibility(
+                                            context: context,
+                                            tabletLandscape: false,
+                                            desktop: false,
+                                          ))
+                                            RichText(
+                                              textScaler: MediaQuery.of(context)
+                                                  .textScaler,
+                                              text: TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text:
+                                                        'Student Success Centre Hub',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .titleLarge
+                                                        .override(
+                                                          fontFamily: 'Outfit',
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                  )
+                                                ],
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleMedium
+                                                        .override(
+                                                          fontFamily:
+                                                              'Plus Jakarta Sans',
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                              ),
+                                            ),
+                                        ].divide(const SizedBox(height: 12.0)),
                                       ),
-                                ),
-                              ),
-                          ].divide(const SizedBox(height: 12.0)),
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: wrapWithModel(
-                                model: _model.defaultButtonModel1,
-                                updateCallback: () => safeSetState(() {}),
-                                child: Hero(
-                                  tag: 'main-button',
-                                  transitionOnUserGestures: true,
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    child: DefaultButtonWidget(
-                                      title: 'Staff',
-                                      onTap: () async {
-                                        context.pushNamed('Login');
-                                      },
-                                    ),
+                                      Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Expanded(
+                                            flex: 1,
+                                            child: wrapWithModel(
+                                              model: _model.defaultButtonModel1,
+                                              updateCallback: () =>
+                                                  safeSetState(() {}),
+                                              child: Hero(
+                                                tag: 'main-button',
+                                                transitionOnUserGestures: true,
+                                                child: Material(
+                                                  color: Colors.transparent,
+                                                  child: DefaultButtonWidget(
+                                                    title: 'Staff',
+                                                    onTap: () async {
+                                                      context
+                                                          .pushNamed('Login');
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 1,
+                                            child: InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              onTap: () async {
+                                                context.pushNamed('Student');
+                                              },
+                                              child: wrapWithModel(
+                                                model:
+                                                    _model.defaultButtonModel2,
+                                                updateCallback: () =>
+                                                    safeSetState(() {}),
+                                                child: Hero(
+                                                  tag: 'main-button',
+                                                  transitionOnUserGestures:
+                                                      true,
+                                                  child: Material(
+                                                    color: Colors.transparent,
+                                                    child: DefaultButtonWidget(
+                                                      title: 'Students',
+                                                      onTap: () async {
+                                                        context.pushNamed(
+                                                            'tickets_page');
+                                                      },
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ].divide(const SizedBox(width: 12.0)),
+                                      ),
+                                    ].divide(const SizedBox(height: 64.0)),
                                   ),
                                 ),
                               ),
                             ),
-                            Expanded(
-                              flex: 1,
-                              child: wrapWithModel(
-                                model: _model.defaultButtonModel2,
-                                updateCallback: () => safeSetState(() {}),
-                                child: Hero(
-                                  tag: 'main-button',
-                                  transitionOnUserGestures: true,
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    child: DefaultButtonWidget(
-                                      title: 'Students',
-                                      onTap: () async {
-                                        context.pushNamed('tickets_page');
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ].divide(const SizedBox(width: 12.0)),
+                          ),
                         ),
-                      ].divide(const SizedBox(height: 64.0)),
+                      ],
                     ),
-                  ),
+                  ],
                 ),
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }

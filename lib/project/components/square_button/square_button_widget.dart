@@ -39,6 +39,8 @@ class _SquareButtonWidgetState extends State<SquareButtonWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => SquareButtonModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
