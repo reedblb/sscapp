@@ -54,8 +54,6 @@ abstract class FlutterFlowTheme {
   late Color error;
   late Color info;
 
-  late Color pureWhite;
-
   @Deprecated('Use displaySmallFamily instead')
   String get title1Family => displaySmallFamily;
   @Deprecated('Use displaySmall instead')
@@ -127,24 +125,22 @@ class LightModeTheme extends FlutterFlowTheme {
   @Deprecated('Use tertiary instead')
   Color get tertiaryColor => tertiary;
 
-  late Color primary = const Color(0xFF6F61EF);
-  late Color secondary = const Color(0xFF39D2C0);
-  late Color tertiary = const Color(0xFFEE8B60);
-  late Color alternate = const Color(0xFFE5E7EB);
-  late Color primaryText = const Color(0xFF15161E);
-  late Color secondaryText = const Color(0xFF606A85);
-  late Color primaryBackground = const Color(0xFFF1F4F8);
+  late Color primary = const Color(0xFF2797FF);
+  late Color secondary = const Color(0xFF0B67BC);
+  late Color tertiary = const Color(0xFFACC420);
+  late Color alternate = const Color(0xFFE0E3E7);
+  late Color primaryText = const Color(0xFF161C24);
+  late Color secondaryText = const Color(0xFF636F81);
+  late Color primaryBackground = const Color(0xFFF0F5F9);
   late Color secondaryBackground = const Color(0xFFFFFFFF);
-  late Color accent1 = const Color(0x4D9489F5);
-  late Color accent2 = const Color(0x4C39D2C0);
-  late Color accent3 = const Color(0x4CEE8B60);
-  late Color accent4 = const Color(0x9AFFFFFF);
-  late Color success = const Color(0xFF048178);
-  late Color warning = const Color(0xFFFCDC0C);
-  late Color error = const Color(0xFFFF5963);
+  late Color accent1 = const Color(0x4C2797FF);
+  late Color accent2 = const Color(0x4C0B67BC);
+  late Color accent3 = const Color(0x4DACC420);
+  late Color accent4 = const Color(0xFFEEEEEE);
+  late Color success = const Color(0xFF27AE52);
+  late Color warning = const Color(0xFFFC964D);
+  late Color error = const Color(0xFFEE4444);
   late Color info = const Color(0xFFFFFFFF);
-
-  late Color pureWhite = const Color(0xFFFFFFFF);
 }
 
 abstract class Typography {
@@ -217,15 +213,15 @@ class ThemeTypography extends Typography {
   TextStyle get headlineMedium => GoogleFonts.getFont(
         'Outfit',
         color: theme.primaryText,
-        fontWeight: FontWeight.w500,
-        fontSize: 24.0,
+        fontWeight: FontWeight.w600,
+        fontSize: 32.0,
       );
   String get headlineSmallFamily => 'Outfit';
   TextStyle get headlineSmall => GoogleFonts.getFont(
         'Outfit',
         color: theme.primaryText,
         fontWeight: FontWeight.bold,
-        fontSize: 22.0,
+        fontSize: 24.0,
       );
   String get titleLargeFamily => 'Outfit';
   TextStyle get titleLarge => GoogleFonts.getFont(
@@ -234,59 +230,60 @@ class ThemeTypography extends Typography {
         fontWeight: FontWeight.w500,
         fontSize: 22.0,
       );
-  String get titleMediumFamily => 'Plus Jakarta Sans';
+  String get titleMediumFamily => 'Manrope';
   TextStyle get titleMedium => GoogleFonts.getFont(
-        'Plus Jakarta Sans',
-        color: theme.info,
-        fontWeight: FontWeight.w500,
-        fontSize: 18.0,
-      );
-  String get titleSmallFamily => 'Plus Jakarta Sans';
-  TextStyle get titleSmall => GoogleFonts.getFont(
-        'Plus Jakarta Sans',
+        'Manrope',
         color: theme.info,
         fontWeight: FontWeight.w500,
         fontSize: 16.0,
       );
-  String get labelLargeFamily => 'Outfit';
+  String get titleSmallFamily => 'Manrope';
+  TextStyle get titleSmall => GoogleFonts.getFont(
+        'Manrope',
+        color: theme.info,
+        fontWeight: FontWeight.w500,
+        fontSize: 14.0,
+      );
+  String get labelLargeFamily => 'Manrope';
   TextStyle get labelLarge => GoogleFonts.getFont(
-        'Outfit',
+        'Manrope',
         color: theme.secondaryText,
         fontWeight: FontWeight.w500,
         fontSize: 16.0,
       );
-  String get labelMediumFamily => 'Outfit';
+  String get labelMediumFamily => 'Manrope';
   TextStyle get labelMedium => GoogleFonts.getFont(
-        'Outfit',
+        'Manrope',
         color: theme.secondaryText,
         fontWeight: FontWeight.w500,
         fontSize: 14.0,
       );
-  String get labelSmallFamily => 'Outfit';
+  String get labelSmallFamily => 'Manrope';
   TextStyle get labelSmall => GoogleFonts.getFont(
-        'Outfit',
+        'Manrope',
         color: theme.secondaryText,
         fontWeight: FontWeight.w500,
         fontSize: 12.0,
       );
-  String get bodyLargeFamily => 'Plus Jakarta Sans';
+  String get bodyLargeFamily => 'Manrope';
   TextStyle get bodyLarge => GoogleFonts.getFont(
-        'Plus Jakarta Sans',
+        'Manrope',
         color: theme.primaryText,
+        fontWeight: FontWeight.w500,
         fontSize: 16.0,
       );
-  String get bodyMediumFamily => 'Plus Jakarta Sans';
+  String get bodyMediumFamily => 'Manrope';
   TextStyle get bodyMedium => GoogleFonts.getFont(
-        'Plus Jakarta Sans',
+        'Manrope',
         color: theme.primaryText,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w500,
         fontSize: 14.0,
       );
-  String get bodySmallFamily => 'Plus Jakarta Sans';
+  String get bodySmallFamily => 'Manrope';
   TextStyle get bodySmall => GoogleFonts.getFont(
-        'Plus Jakarta Sans',
+        'Manrope',
         color: theme.primaryText,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w500,
         fontSize: 12.0,
       );
 }
@@ -299,24 +296,22 @@ class DarkModeTheme extends FlutterFlowTheme {
   @Deprecated('Use tertiary instead')
   Color get tertiaryColor => tertiary;
 
-  late Color primary = const Color(0xFF6F61EF);
-  late Color secondary = const Color(0xFF39D2C0);
-  late Color tertiary = const Color(0xFFEE8B60);
-  late Color alternate = const Color(0xFF313442);
+  late Color primary = const Color(0xFF2797FF);
+  late Color secondary = const Color(0xFF0B67BC);
+  late Color tertiary = const Color(0xFFACC420);
+  late Color alternate = const Color(0xFF2B3743);
   late Color primaryText = const Color(0xFFFFFFFF);
-  late Color secondaryText = const Color(0xFFA9ADC6);
-  late Color primaryBackground = const Color(0xFF15161E);
-  late Color secondaryBackground = const Color(0xFF1B1D27);
-  late Color accent1 = const Color(0x4D9489F5);
-  late Color accent2 = const Color(0x4C39D2C0);
-  late Color accent3 = const Color(0x4CEE8B60);
-  late Color accent4 = const Color(0x981D2428);
-  late Color success = const Color(0xFF048178);
-  late Color warning = const Color(0xFFFCDC0C);
-  late Color error = const Color(0xFFFF5963);
+  late Color secondaryText = const Color(0xFF919BAB);
+  late Color primaryBackground = const Color(0xFF161C24);
+  late Color secondaryBackground = const Color(0xFF212B36);
+  late Color accent1 = const Color(0x4C2797FF);
+  late Color accent2 = const Color(0x4C0B67BC);
+  late Color accent3 = const Color(0x4DACC420);
+  late Color accent4 = const Color(0xB3161C24);
+  late Color success = const Color(0xFF27AE52);
+  late Color warning = const Color(0xFFFC964D);
+  late Color error = const Color(0xFFEE4444);
   late Color info = const Color(0xFFFFFFFF);
-
-  late Color pureWhite = const Color(0xFF8ADAAE);
 }
 
 extension TextStyleHelper on TextStyle {

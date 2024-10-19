@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '/backend/schema/structs/index.dart';
+import '/backend/backend.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
+import '/backend/push_notifications/push_notifications_handler.dart'
+    show PushNotificationsHandler;
 import '/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -69,74 +70,61 @@ class AppStateNotifier extends ChangeNotifier {
   }
 }
 
-GoRouter createRouter(AppStateNotifier appStateNotifier, [Widget? entryPage]) =>
-    GoRouter(
+GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       initialLocation: '/',
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
-      errorBuilder: (context, state) => appStateNotifier.loggedIn
-          ? entryPage ?? const StaffDashboardWidget()
-          : const HomepageWidget(),
+      errorBuilder: (context, state) =>
+          appStateNotifier.loggedIn ? const DashboardStaffWidget() : const HomeWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) => appStateNotifier.loggedIn
-              ? entryPage ?? const StaffDashboardWidget()
-              : const HomepageWidget(),
+          builder: (context, _) =>
+              appStateNotifier.loggedIn ? const DashboardStaffWidget() : const HomeWidget(),
           routes: [
             FFRoute(
-              name: 'Homepage',
+              name: 'Home',
               path: 'home',
-              builder: (context, params) => const HomepageWidget(),
+              builder: (context, params) => const HomeWidget(),
             ),
             FFRoute(
-              name: 'tickets_page',
-              path: 'ticketsPage',
-              builder: (context, params) => const TicketsPageWidget(),
+              name: 'LoginStaff',
+              path: 'loginStaff',
+              builder: (context, params) => const LoginStaffWidget(),
             ),
             FFRoute(
-              name: 'chat_page',
-              path: 'chatPage',
-              builder: (context, params) => ChatPageWidget(
-                index: params.getParam(
-                  'index',
-                  ParamType.int,
-                ),
-                name: params.getParam(
-                  'name',
-                  ParamType.String,
-                ),
-                status: params.getParam(
-                  'status',
-                  ParamType.String,
+              name: 'DashboardStaff',
+              path: 'dashboardStaff',
+              requireAuth: true,
+              builder: (context, params) => const DashboardStaffWidget(),
+            ),
+            FFRoute(
+              name: 'support_TicketList',
+              path: 'supportTicketList',
+              requireAuth: true,
+              builder: (context, params) => const SupportTicketListWidget(),
+            ),
+            FFRoute(
+              name: 'support_SubmitTicket',
+              path: 'supportSubmitTicket',
+              requireAuth: true,
+              builder: (context, params) => const SupportSubmitTicketWidget(),
+            ),
+            FFRoute(
+              name: 'support_TicketDetails',
+              path: 'supportTicketDetails',
+              requireAuth: true,
+              asyncParams: {
+                'ticketRef': getDoc(
+                    ['supportTickets'], SupportTicketsRecord.fromSnapshot),
+              },
+              builder: (context, params) => SupportTicketDetailsWidget(
+                ticketRef: params.getParam(
+                  'ticketRef',
+                  ParamType.Document,
                 ),
               ),
-            ),
-            FFRoute(
-              name: 'Login',
-              path: 'login',
-              builder: (context, params) => const LoginWidget(),
-            ),
-            FFRoute(
-              name: 'GenerateReport',
-              path: 'generateReport',
-              builder: (context, params) => const GenerateReportWidget(),
-            ),
-            FFRoute(
-              name: 'Student',
-              path: 'student',
-              builder: (context, params) => const StudentWidget(),
-            ),
-            FFRoute(
-              name: 'StaffDashboard',
-              path: 'staffDashboard',
-              builder: (context, params) => const StaffDashboardWidget(),
-            ),
-            FFRoute(
-              name: 'Directory',
-              path: 'directory',
-              builder: (context, params) => const DirectoryWidget(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),
@@ -257,7 +245,7 @@ class FFParameters {
     String paramName,
     ParamType type, {
     bool isList = false,
-    StructBuilder<T>? structBuilder,
+    List<String>? collectionNamePath,
   }) {
     if (futureParamValues.containsKey(paramName)) {
       return futureParamValues[paramName];
@@ -275,7 +263,7 @@ class FFParameters {
       param,
       type,
       isList,
-      structBuilder: structBuilder,
+      collectionNamePath: collectionNamePath,
     );
   }
 }
@@ -323,19 +311,17 @@ class FFRoute {
                 )
               : builder(context, ffParams);
           final child = appStateNotifier.loading
-              ? isWeb
-                  ? Container()
-                  : Container(
-                      color: FlutterFlowTheme.of(context).alternate,
-                      child: Center(
-                        child: Image.asset(
-                          'assets/images/Logo_-_Copy_-_Copy.png',
-                          width: 150.0,
-                          fit: BoxFit.fitWidth,
-                        ),
-                      ),
-                    )
-              : page;
+              ? Container(
+                  color: FlutterFlowTheme.of(context).primaryBackground,
+                  child: Center(
+                    child: Image.asset(
+                      'assets/images/Logo_-_Copy_-_Copy.png',
+                      width: MediaQuery.sizeOf(context).width * 0.8,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                )
+              : PushNotificationsHandler(child: page);
 
           final transitionInfo = state.transitionInfo;
           return transitionInfo.hasTransition

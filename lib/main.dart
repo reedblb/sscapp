@@ -1,37 +1,41 @@
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'auth/firebase_auth/firebase_user_provider.dart';
+import 'auth/firebase_auth/auth_util.dart';
 
-import 'auth/supabase_auth/supabase_user_provider.dart';
-import 'auth/supabase_auth/auth_util.dart';
-
-import '/backend/supabase/supabase.dart';
+import 'backend/push_notifications/push_notifications_util.dart';
+import '/backend/sqlite/sqlite_manager.dart';
+import 'backend/firebase/firebase_config.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
+import 'package:flutter/foundation.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'flutter_flow/firebase_app_check_util.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   GoRouter.optionURLReflectsImperativeAPIs = true;
   usePathUrlStrategy();
 
-  await SupaFlow.initialize();
+  await initFirebase();
 
+  await SQLiteManager.initialize();
   await FlutterFlowTheme.initialize();
 
-  final appState = FFAppState(); // Initialize FFAppState
-  await appState.initializePersistedState();
+  if (!kIsWeb) {
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  }
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => appState,
-    child: const MyApp(),
-  ));
+  await initializeFirebaseAppCheck();
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key, this.entryPage});
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -39,8 +43,6 @@ class MyApp extends StatefulWidget {
 
   static _MyAppState of(BuildContext context) =>
       context.findAncestorStateOfType<_MyAppState>()!;
-
-  final Widget? entryPage;
 }
 
 class _MyAppState extends State<MyApp> {
@@ -53,21 +55,31 @@ class _MyAppState extends State<MyApp> {
 
   late Stream<BaseAuthUser> userStream;
 
+  final authUserSub = authenticatedUserStream.listen((_) {});
+  final fcmTokenSub = fcmTokenUserStream.listen((_) {});
+
   @override
   void initState() {
     super.initState();
 
     _appStateNotifier = AppStateNotifier.instance;
-    _router = createRouter(_appStateNotifier, widget.entryPage);
-    userStream = studentSuccessCentreHubSupabaseUserStream()
+    _router = createRouter(_appStateNotifier);
+    userStream = studentSuccessCentreHubFirebaseUserStream()
       ..listen((user) {
         _appStateNotifier.update(user);
       });
     jwtTokenStream.listen((_) {});
     Future.delayed(
-      Duration(milliseconds: isWeb ? 0 : 1000),
+      const Duration(milliseconds: 600),
       () => _appStateNotifier.stopShowingSplashImage(),
     );
+  }
+
+  @override
+  void dispose() {
+    authUserSub.cancel();
+    fcmTokenSub.cancel();
+    super.dispose();
   }
 
   void setLocale(String language) {
@@ -95,9 +107,11 @@ class _MyAppState extends State<MyApp> {
       ],
       theme: ThemeData(
         brightness: Brightness.light,
+        useMaterial3: false,
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
+        useMaterial3: false,
       ),
       themeMode: _themeMode,
       routerConfig: _router,
