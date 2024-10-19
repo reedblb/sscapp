@@ -131,7 +131,7 @@ class _UserListSmallWidgetState extends State<UserListSmallWidget> {
                   ),
                 ),
               ),
-              if (currentUserReference == widget.userRef?.reference)
+              if (currentUserUid == widget.userRef?.uid)
                 Container(
                   height: 32.0,
                   decoration: BoxDecoration(

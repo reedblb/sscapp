@@ -79,8 +79,7 @@ class SupportTicketsRecord extends FirestoreRecord {
   }
 
   static CollectionReference get collection =>
-      FirebaseFirestore.instanceFor(app: Firebase.app(), databaseId: 'sscdb')
-          .collection('supportTickets');
+      FirebaseFirestore.instance.collection('supportTickets');
 
   static Stream<SupportTicketsRecord> getDocument(DocumentReference ref) =>
       ref.snapshots().map((s) => SupportTicketsRecord.fromSnapshot(s));

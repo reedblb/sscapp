@@ -55,8 +55,7 @@ class UsersRecord extends FirestoreRecord {
   }
 
   static CollectionReference get collection =>
-      FirebaseFirestore.instanceFor(app: Firebase.app(), databaseId: 'sscdb')
-          .collection('users');
+      FirebaseFirestore.instance.collection('users');
 
   static Stream<UsersRecord> getDocument(DocumentReference ref) =>
       ref.snapshots().map((s) => UsersRecord.fromSnapshot(s));

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '/backend/backend.dart';
 
-import '/backend/sqlite/queries/sqlite_row.dart';
 import '../../flutter_flow/place.dart';
 import '../../flutter_flow/uploaded_file.dart';
 
@@ -44,9 +43,6 @@ dynamic serializeParameter(dynamic value) {
       return placeToString(value as FFPlace);
     case FFUploadedFile:
       return uploadedFileToString(value as FFUploadedFile);
-
-    case SqliteRow:
-      return json.encode((value as SqliteRow).data);
   }
 
   if (value is DocumentReference) {
@@ -147,9 +143,7 @@ T? getParameter<T>(Map<String, dynamic> data, String paramName) {
         return uploadedFileFromString(param) as T;
     }
     if (param is String) {
-      return FirebaseFirestore.instanceFor(
-              app: Firebase.app(), databaseId: 'sscdb')
-          .doc(param) as T;
+      return FirebaseFirestore.instance.doc(param) as T;
     }
     return param;
   } catch (e) {
@@ -166,7 +160,7 @@ Future<T?> getDocumentParameter<T>(
   if (!data.containsKey(paramName)) {
     return Future.value(null);
   }
-  return FirebaseFirestore.instanceFor(app: Firebase.app(), databaseId: 'sscdb')
+  return FirebaseFirestore.instance
       .doc(data[paramName])
       .get()
       .then((s) => recordBuilder(s));

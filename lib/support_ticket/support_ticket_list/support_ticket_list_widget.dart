@@ -27,6 +27,8 @@ class _SupportTicketListWidgetState extends State<SupportTicketListWidget> {
     super.initState();
     _model = createModel(context, () => SupportTicketListModel());
 
+    logFirebaseEvent('screen_view',
+        parameters: {'screen_name': 'support_TicketList'});
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
@@ -69,6 +71,9 @@ class _SupportTicketListWidgetState extends State<SupportTicketListWidget> {
                   size: 24.0,
                 ),
                 onPressed: () async {
+                  logFirebaseEvent('SUPPORT_TICKET_LIST_post_add_rounded_ICN');
+                  logFirebaseEvent('IconButton_navigate_to');
+
                   context.pushNamed('support_SubmitTicket');
                 },
               ),
@@ -132,6 +137,10 @@ class _SupportTicketListWidgetState extends State<SupportTicketListWidget> {
                                 'Ah, you are in luck, none of your support tickets exist.',
                             buttonText: 'Create Ticket',
                             buttonAction: () async {
+                              logFirebaseEvent(
+                                  'SUPPORT_TICKET_LIST_ListView_5lkkfage_CA');
+                              logFirebaseEvent('ListView_navigate_to');
+
                               context.pushNamed('support_SubmitTicket');
                             },
                           ),
@@ -161,6 +170,10 @@ class _SupportTicketListWidgetState extends State<SupportTicketListWidget> {
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
+                              logFirebaseEvent(
+                                  'SUPPORT_TICKET_LIST_listContainer_ON_TAP');
+                              logFirebaseEvent('listContainer_navigate_to');
+
                               context.pushNamed(
                                 'support_TicketDetails',
                                 queryParameters: {

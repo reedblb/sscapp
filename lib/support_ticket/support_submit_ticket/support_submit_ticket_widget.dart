@@ -1,4 +1,3 @@
-import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
@@ -40,6 +39,8 @@ class _SupportSubmitTicketWidgetState extends State<SupportSubmitTicketWidget>
     super.initState();
     _model = createModel(context, () => SupportSubmitTicketModel());
 
+    logFirebaseEvent('screen_view',
+        parameters: {'screen_name': 'support_SubmitTicket'});
     _model.textController1 ??= TextEditingController();
     _model.textFieldFocusNode1 ??= FocusNode();
 
@@ -316,6 +317,8 @@ class _SupportSubmitTicketWidgetState extends State<SupportSubmitTicketWidget>
               size: 30.0,
             ),
             onPressed: () async {
+              logFirebaseEvent('SUPPORT_SUBMIT_TICKET_arrow_back_rounded');
+              logFirebaseEvent('IconButton_navigate_back');
               context.pop();
             },
           ),
@@ -396,9 +399,13 @@ class _SupportSubmitTicketWidgetState extends State<SupportSubmitTicketWidget>
                                             hoverColor: Colors.transparent,
                                             highlightColor: Colors.transparent,
                                             onTap: () async {
+                                              logFirebaseEvent(
+                                                  'SUPPORT_SUBMIT_TICKET_Container_ttd4xxbk');
+                                              logFirebaseEvent(
+                                                  'Container_call_number');
                                               await launchUrl(Uri(
                                                 scheme: 'tel',
-                                                path: '+9714252584',
+                                                path: 'tel://+9714252584',
                                               ));
                                             },
                                             child: Container(
@@ -482,6 +489,10 @@ class _SupportSubmitTicketWidgetState extends State<SupportSubmitTicketWidget>
                                             hoverColor: Colors.transparent,
                                             highlightColor: Colors.transparent,
                                             onTap: () async {
+                                              logFirebaseEvent(
+                                                  'SUPPORT_SUBMIT_TICKET_Container_chddp1bu');
+                                              logFirebaseEvent(
+                                                  'Container_send_email');
                                               await launchUrl(Uri(
                                                   scheme: 'mailto',
                                                   path: 'test@test.com',
@@ -815,6 +826,10 @@ class _SupportSubmitTicketWidgetState extends State<SupportSubmitTicketWidget>
                                       hoverColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
                                       onTap: () async {
+                                        logFirebaseEvent(
+                                            'SUPPORT_SUBMIT_TICKET_Container_lfdur4yx');
+                                        logFirebaseEvent(
+                                            'Container_upload_media_to_firebase');
                                         final selectedMedia =
                                             await selectMediaWithSourceBottomSheet(
                                           context: context,
@@ -960,6 +975,10 @@ class _SupportSubmitTicketWidgetState extends State<SupportSubmitTicketWidget>
                                             hoverColor: Colors.transparent,
                                             highlightColor: Colors.transparent,
                                             onTap: () async {
+                                              logFirebaseEvent(
+                                                  'SUPPORT_SUBMIT_TICKET_Container_10otumq7');
+                                              logFirebaseEvent(
+                                                  'Container_bottom_sheet');
                                               await showModalBottomSheet(
                                                 isScrollControlled: true,
                                                 backgroundColor:
@@ -1105,12 +1124,14 @@ class _SupportSubmitTicketWidgetState extends State<SupportSubmitTicketWidget>
                           16.0, 12.0, 16.0, 12.0),
                       child: FFButtonWidget(
                         onPressed: () async {
+                          logFirebaseEvent(
+                              'SUPPORT_SUBMIT_TICKET_SUBMIT_TICKET_BTN_');
                           // createTicket
+                          logFirebaseEvent('Button_createTicket');
 
                           await SupportTicketsRecord.collection
                               .doc()
                               .set(createSupportTicketsRecordData(
-                                owner: currentUserReference,
                                 name: _model.textController1.text,
                                 description: _model.textController2.text,
                                 createdTime: getCurrentTimestamp,
@@ -1126,6 +1147,7 @@ class _SupportSubmitTicketWidgetState extends State<SupportSubmitTicketWidget>
                                     _model.userRefSelected?.reference,
                               ));
                           // successMessage
+                          logFirebaseEvent('Button_successMessage');
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
@@ -1143,6 +1165,7 @@ class _SupportSubmitTicketWidgetState extends State<SupportSubmitTicketWidget>
                                   FlutterFlowTheme.of(context).secondary,
                             ),
                           );
+                          logFirebaseEvent('Button_navigate_back');
                           context.safePop();
                         },
                         text: 'Submit Ticket',

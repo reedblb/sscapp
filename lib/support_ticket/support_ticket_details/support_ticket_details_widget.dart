@@ -35,6 +35,8 @@ class _SupportTicketDetailsWidgetState
     super.initState();
     _model = createModel(context, () => SupportTicketDetailsModel());
 
+    logFirebaseEvent('screen_view',
+        parameters: {'screen_name': 'support_TicketDetails'});
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
@@ -66,6 +68,8 @@ class _SupportTicketDetailsWidgetState
               size: 30.0,
             ),
             onPressed: () async {
+              logFirebaseEvent('SUPPORT_TICKET_DETAILS_arrow_back_rounde');
+              logFirebaseEvent('IconButton_navigate_back');
               context.pop();
             },
           ),
@@ -395,6 +399,9 @@ class _SupportTicketDetailsWidgetState
                                       hoverColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
                                       onTap: () async {
+                                        logFirebaseEvent(
+                                            'SUPPORT_TICKET_DETAILS_Image_furxypsh_ON');
+                                        logFirebaseEvent('Image_expand_image');
                                         await Navigator.push(
                                           context,
                                           PageTransition(
@@ -1005,6 +1012,10 @@ class _SupportTicketDetailsWidgetState
                                                       0.0, 12.0, 0.0, 0.0),
                                               child: FFButtonWidget(
                                                 onPressed: () async {
+                                                  logFirebaseEvent(
+                                                      'SUPPORT_TICKET_DETAILS_ASSIGN_BTN_ON_TAP');
+                                                  logFirebaseEvent(
+                                                      'Button_bottom_sheet');
                                                   await showModalBottomSheet(
                                                     isScrollControlled: true,
                                                     backgroundColor:
@@ -1039,6 +1050,9 @@ class _SupportTicketDetailsWidgetState
                                                       _model.selectedUser
                                                               ?.reference.id !=
                                                           '') {
+                                                    logFirebaseEvent(
+                                                        'Button_backend_call');
+
                                                     await widget
                                                         .ticketRef!.reference
                                                         .update(
@@ -1047,6 +1061,8 @@ class _SupportTicketDetailsWidgetState
                                                           .selectedUser
                                                           ?.reference,
                                                     ));
+                                                    logFirebaseEvent(
+                                                        'Button_show_snack_bar');
                                                     ScaffoldMessenger.of(
                                                             context)
                                                         .showSnackBar(
@@ -1119,6 +1135,11 @@ class _SupportTicketDetailsWidgetState
                                                       0.0, 12.0, 0.0, 0.0),
                                               child: FFButtonWidget(
                                                 onPressed: () async {
+                                                  logFirebaseEvent(
+                                                      'SUPPORT_TICKET_DETAILS_UPDATE_TICKET_BTN');
+                                                  logFirebaseEvent(
+                                                      'Button_backend_call');
+
                                                   await widget
                                                       .ticketRef!.reference
                                                       .update(
@@ -1128,6 +1149,8 @@ class _SupportTicketDetailsWidgetState
                                                     lastActive:
                                                         getCurrentTimestamp,
                                                   ));
+                                                  logFirebaseEvent(
+                                                      'Button_show_snack_bar');
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(
                                                     SnackBar(

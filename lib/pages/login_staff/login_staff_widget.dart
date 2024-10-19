@@ -23,6 +23,7 @@ class _LoginStaffWidgetState extends State<LoginStaffWidget> {
     super.initState();
     _model = createModel(context, () => LoginStaffModel());
 
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'LoginStaff'});
     _model.emailAddressTextController ??= TextEditingController();
     _model.emailAddressFocusNode ??= FocusNode();
 
@@ -313,6 +314,9 @@ class _LoginStaffWidgetState extends State<LoginStaffWidget> {
                                           0.0, 0.0, 0.0, 16.0),
                                       child: FFButtonWidget(
                                         onPressed: () async {
+                                          logFirebaseEvent(
+                                              'LOGIN_STAFF_PAGE_SIGN_IN_BTN_ON_TAP');
+                                          logFirebaseEvent('Button_auth');
                                           GoRouter.of(context)
                                               .prepareAuthEvent();
 

@@ -26,6 +26,7 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
     super.initState();
     _model = createModel(context, () => HomeModel());
 
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'Home'});
     animationsMap.addAll({
       'containerOnPageLoadAnimation': AnimationInfo(
         trigger: AnimationTrigger.onPageLoad,
@@ -408,6 +409,9 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                               0.0, 0.0, 8.0, 16.0),
                           child: FFButtonWidget(
                             onPressed: () async {
+                              logFirebaseEvent('HOME_PAGE_STAFF_BTN_ON_TAP');
+                              logFirebaseEvent('Button_navigate_to');
+
                               context.pushNamed('LoginStaff');
                             },
                             text: 'Staff',

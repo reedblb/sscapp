@@ -82,52 +82,46 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: '/',
           builder: (context, _) =>
               appStateNotifier.loggedIn ? const DashboardStaffWidget() : const HomeWidget(),
-          routes: [
-            FFRoute(
-              name: 'Home',
-              path: 'home',
-              builder: (context, params) => const HomeWidget(),
-            ),
-            FFRoute(
-              name: 'LoginStaff',
-              path: 'loginStaff',
-              builder: (context, params) => const LoginStaffWidget(),
-            ),
-            FFRoute(
-              name: 'DashboardStaff',
-              path: 'dashboardStaff',
-              requireAuth: true,
-              builder: (context, params) => const DashboardStaffWidget(),
-            ),
-            FFRoute(
-              name: 'support_TicketList',
-              path: 'supportTicketList',
-              requireAuth: true,
-              builder: (context, params) => const SupportTicketListWidget(),
-            ),
-            FFRoute(
-              name: 'support_SubmitTicket',
-              path: 'supportSubmitTicket',
-              requireAuth: true,
-              builder: (context, params) => const SupportSubmitTicketWidget(),
-            ),
-            FFRoute(
-              name: 'support_TicketDetails',
-              path: 'supportTicketDetails',
-              requireAuth: true,
-              asyncParams: {
-                'ticketRef': getDoc(
-                    ['supportTickets'], SupportTicketsRecord.fromSnapshot),
-              },
-              builder: (context, params) => SupportTicketDetailsWidget(
-                ticketRef: params.getParam(
-                  'ticketRef',
-                  ParamType.Document,
-                ),
-              ),
-            )
-          ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),
+        FFRoute(
+          name: 'Home',
+          path: '/home',
+          builder: (context, params) => const HomeWidget(),
+        ),
+        FFRoute(
+          name: 'LoginStaff',
+          path: '/loginStaff',
+          builder: (context, params) => const LoginStaffWidget(),
+        ),
+        FFRoute(
+          name: 'DashboardStaff',
+          path: '/dashboardStaff',
+          builder: (context, params) => const DashboardStaffWidget(),
+        ),
+        FFRoute(
+          name: 'support_TicketList',
+          path: '/supportTicketList',
+          builder: (context, params) => const SupportTicketListWidget(),
+        ),
+        FFRoute(
+          name: 'support_SubmitTicket',
+          path: '/supportSubmitTicket',
+          builder: (context, params) => const SupportSubmitTicketWidget(),
+        ),
+        FFRoute(
+          name: 'support_TicketDetails',
+          path: '/supportTicketDetails',
+          asyncParams: {
+            'ticketRef':
+                getDoc(['supportTickets'], SupportTicketsRecord.fromSnapshot),
+          },
+          builder: (context, params) => SupportTicketDetailsWidget(
+            ticketRef: params.getParam(
+              'ticketRef',
+              ParamType.Document,
+            ),
+          ),
+        )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
 

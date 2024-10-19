@@ -134,6 +134,9 @@ class _UserListWidgetState extends State<UserListWidget> {
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
+                                logFirebaseEvent(
+                                    'USER_LIST_COMP_Container_y0csljcn_ON_TAP');
+                                logFirebaseEvent('user_ListSmall_bottom_sheet');
                                 Navigator.pop(context, listViewUsersRecord);
                               },
                               child: wrapWithModel(
@@ -177,6 +180,9 @@ class _UserListWidgetState extends State<UserListWidget> {
                       hoverColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () async {
+                        logFirebaseEvent(
+                            'USER_LIST_COMP_convertComponent_ON_TAP');
+                        logFirebaseEvent('convertComponent_bottom_sheet');
                         Navigator.pop(context);
                       },
                       child: AnimatedContainer(

@@ -28,6 +28,8 @@ class _DashboardStaffWidgetState extends State<DashboardStaffWidget>
     super.initState();
     _model = createModel(context, () => DashboardStaffModel());
 
+    logFirebaseEvent('screen_view',
+        parameters: {'screen_name': 'DashboardStaff'});
     animationsMap.addAll({
       'containerOnPageLoadAnimation4': AnimationInfo(
         trigger: AnimationTrigger.onPageLoad,
@@ -364,6 +366,10 @@ class _DashboardStaffWidgetState extends State<DashboardStaffWidget>
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
+                                logFirebaseEvent(
+                                    'DASHBOARD_STAFF_PAGE_Row_4lwwyzas_ON_TAP');
+                                logFirebaseEvent('Row_navigate_to');
+
                                 context.pushNamed('support_TicketList');
                               },
                               child: Row(
@@ -397,6 +403,10 @@ class _DashboardStaffWidgetState extends State<DashboardStaffWidget>
                                     hoverColor: Colors.transparent,
                                     highlightColor: Colors.transparent,
                                     onTap: () async {
+                                      logFirebaseEvent(
+                                          'DASHBOARD_STAFF_Icon_1yam8ixd_ON_TAP');
+                                      logFirebaseEvent('Icon_navigate_to');
+
                                       context.pushNamed('support_TicketList');
                                     },
                                     child: Icon(
